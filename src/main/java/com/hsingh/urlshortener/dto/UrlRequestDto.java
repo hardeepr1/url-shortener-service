@@ -1,11 +1,11 @@
 package com.hsingh.urlshortener.dto;
 
-public class UrlRequest {
+public class UrlRequestDto {
     private String longUrl;
 
-    public UrlRequest() {}
+    public UrlRequestDto() {}
 
-    public UrlRequest(String originalUrl) {
+    public UrlRequestDto(String originalUrl) {
         this.longUrl = originalUrl;
     }
 
