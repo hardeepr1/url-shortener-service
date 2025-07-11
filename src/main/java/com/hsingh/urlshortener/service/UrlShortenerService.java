@@ -1,8 +1,6 @@
 package com.hsingh.urlshortener.service;
 
-import org.springframework.stereotype.Service;
-
-public interface UrlService {
+public interface UrlShortenerService {
     String shortenUrl(String originalUrl);
     String getOriginalUrl(String shortCode);
 }
