@@ -2,7 +2,7 @@ package com.hsingh.urlshortener.controller;
 
 import com.hsingh.urlshortener.dto.UrlRequestDto;
 import com.hsingh.urlshortener.dto.UrlResponseDto;
-import com.hsingh.urlshortener.service.UrlService;
+import com.hsingh.urlshortener.service.UrlShortenerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -13,25 +13,25 @@ import java.net.URI;
 
 @RestController
 @RequestMapping("/api/v1")
-public class UrlController {
+public class UrlShortenerController {
 
-    UrlService urlService;
+    UrlShortenerService urlShortenerService;
 
     @Autowired
-    public UrlController(UrlService urlService){
-        this.urlService = urlService;
+    public UrlShortenerController(UrlShortenerService urlShortenerService){
+        this.urlShortenerService = urlShortenerService;
     }
 
     @PostMapping("/data/shorten")
     public ResponseEntity<UrlResponseDto> shortenUrl(@RequestBody UrlRequestDto urlRequestDto) {
-        String shortenedUrl = urlService.shortenUrl(urlRequestDto.getOriginalUrl());
+        String shortenedUrl = urlShortenerService.shortenUrl(urlRequestDto.getOriginalUrl());
         UrlResponseDto response = new UrlResponseDto(shortenedUrl, urlRequestDto.getOriginalUrl());
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
     @GetMapping("/shortUrl/{shortCode}")
     public ResponseEntity<String> redirect(@PathVariable String shortCode) {
-        String originalUrl = urlService.getOriginalUrl(shortCode);
+        String originalUrl = urlShortenerService.getOriginalUrl(shortCode);
         //To redirect set appropriate header and 302 status
         HttpHeaders headers = new HttpHeaders();
         headers.setLocation(URI.create(originalUrl));
