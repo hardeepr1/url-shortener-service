@@ -24,7 +24,7 @@ public class UrlShortenerController {
 
     @PostMapping("/data/shorten")
     public ResponseEntity<UrlResponseDto> shortenUrl(@RequestBody UrlRequestDto urlRequestDto) {
-        String shortenedUrl = urlShortenerService.shortenUrl(urlRequestDto.getOriginalUrl());
+        String shortenedUrl = urlShortenerService.shortenUrl(urlRequestDto.getOriginalUrl(), urlRequestDto.getCustomShortCode());
         UrlResponseDto response = new UrlResponseDto(shortenedUrl, urlRequestDto.getOriginalUrl());
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }

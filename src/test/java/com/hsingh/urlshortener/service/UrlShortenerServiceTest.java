@@ -34,7 +34,7 @@ public class UrlShortenerServiceTest {
     }
 
     @Test
-    void testShortenUrl_success() {
+    void testShortenUrl_withGeneratedCode_returnsShortUrl() {
         //Arrange
         String longUrl = "https://longurl.example.com";
         UrlMapping mockMapping = new UrlMapping("abc123", longUrl);
@@ -47,11 +47,32 @@ public class UrlShortenerServiceTest {
                 });
 
         //Act
-        String shortenedUrl = urlService.shortenUrl(longUrl);
+        String shortenedUrl = urlService.shortenUrl(longUrl, null);
 
         //Assert
         assertNotNull(shortenedUrl);
         assertEquals("https://test.baseurl/1Z", shortenedUrl);
+    }
+
+    @Test
+    void testShortenUrl_withCustomCode_returnsShortUrl() {
+        //Arrange
+        String longUrl = "https://longurl.example.com";
+        UrlMapping mockMapping = new UrlMapping("abc123", longUrl);
+        mockMapping.setId(123L);
+        when(urlMappingRepository.save(any(UrlMapping.class)))
+                .thenAnswer(invocation -> {
+                    UrlMapping mapping = invocation.getArgument(0);
+                    mapping.setId(123L); // simulate DB assigning ID
+                    return mapping;
+                });
+
+        //Act
+        String shortenedUrl = urlService.shortenUrl(longUrl, "custom_code");
+
+        //Assert
+        assertNotNull(shortenedUrl);
+        assertEquals("https://test.baseurl/custom_code", shortenedUrl);
     }
 
     @Test
