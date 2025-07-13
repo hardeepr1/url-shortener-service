@@ -28,7 +28,7 @@ public class UrlShortenerControllerTest {
         String longUrl = "https://longurl.com";
         UrlRequestDto request = new UrlRequestDto(longUrl);
 
-        when(urlShortenerService.shortenUrl(longUrl)).thenReturn("shortcode");
+        when(urlShortenerService.shortenUrl(longUrl, null)).thenReturn("shortcode");
 
         mockMvc.perform(post("/api/v1/data/shorten")
                         .contentType(MediaType.APPLICATION_JSON)
