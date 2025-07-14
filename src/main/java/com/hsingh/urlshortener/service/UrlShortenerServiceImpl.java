@@ -4,6 +4,7 @@ import com.hsingh.urlshortener.model.UrlMapping;
 import com.hsingh.urlshortener.repository.UrlMappingRepository;
 import com.hsingh.urlshortener.util.Base62Encoder;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -28,6 +29,7 @@ public class UrlShortenerServiceImpl implements UrlShortenerService {
     }
 
     @Override
+    @Cacheable(value = "shortUrls", key = "#shortCode")
     public String getOriginalUrl(String shortCode) {
         UrlMapping urlMapping = urlMappingRepository.findByShortCode(shortCode)
                 .orElseThrow(() -> new RuntimeException("Short code not found"));
